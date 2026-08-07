@@ -1,0 +1,5 @@
+package com.pawcheck.paw_check
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
