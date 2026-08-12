@@ -50,6 +50,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -92,3 +93,26 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# flutter_native_splash config — generates the native iOS/Android launch
+# screen shown before the Flutter engine boots. Colors are the exact
+# `ColorScheme.fromSeed(seedColor: 0xFF2F7D6E).surface` values computed from
+# lib/core/theme/app_theme.dart, so the splash is indistinguishable from the
+# app's own scaffold background and there's no visual "flash" at handoff.
+# Color-only by design (no mark/icon): this is a health-adjacent app for
+# anxious pet owners and the brand is deliberately calm, not busy — see
+# CLAUDE.md. No SVG-to-PNG rasterizer (rsvg-convert/cairosvg/ImageMagick/
+# Pillow) was available in the dev environment to produce a clean icon
+# asset, and flutter_native_splash requires a pre-rendered raster PNG since
+# it renders before Flutter (and therefore any Icon widget) exists.
+flutter_native_splash:
+  color: "F5FBF7"
+  color_dark: "0E1513"
+  android_12:
+    color: "F5FBF7"
+    color_dark: "0E1513"
+  # Project is iOS-first with Android as fast-follow (per CLAUDE.md); web is
+  # explicitly out of scope. An untracked `web/` dir exists in this working
+  # tree from an earlier, unrelated experiment, which made this package
+  # write web splash assets by default — disabled here to avoid scope creep.
+  web: false
