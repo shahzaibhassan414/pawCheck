@@ -46,3 +46,8 @@ app.*.map.json
 
 # Secrets - never commit real API keys, only env.example.json
 /env.json
+
+# Internal dev docs - kept locally, intentionally not versioned
+/CLAUDE.md
+/CHANGELOG.md
+/Pawcheck-prd .md
