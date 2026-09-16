@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Data model: users/{email}/pets/{petId}/scans/{scanId} (also
+// users/{email}/devices/{deviceId}) — the document id under `users` is the
+// account's own lowercased email, not the Firebase Auth uid, so the
+// structure reads cleanly in the Firestore console: one `users` collection,
+// one document per account named by its email, everything about that
+// account nested underneath (including the email-OTP sign-up funnel fields
+// — otpVerified/uid/createdAt/verifiedAt — written directly onto the
+// `users/{email}` document itself by cloudflare/otp-worker/src/index.ts's
+// recordEmailEntered/recordEmailVerified, via the Worker's service-account
+// OAuth2 token, which bypasses these rules entirely).
+//
+// request.auth.token.email is populated from the real Firebase Auth user
+// record (not the custom token's own claims) once signInWithCustomToken
+// resolves — see lib/core/services/firebase_auth_service.dart — and, like
+// the document id, is always lowercased by the Worker before the account is
+// created, so a plain string comparison is safe here without needing a
+// lower() call (Firestore Rules has no such string function).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userEmail}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.email == userEmail;
+    }
+  }
+}

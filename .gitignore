@@ -47,6 +47,14 @@ app.*.map.json
 # Secrets - never commit real API keys, only env.example.json
 /env.json
 
+# Cloudflare Worker build output/deps/local secrets - regenerated via
+# npm install / wrangler; .dev.vars holds local-only secret values, never
+# real ones (those are set via `wrangler secret put`).
+/cloudflare/otp-worker/node_modules/
+/cloudflare/otp-worker/dist/
+/cloudflare/otp-worker/.wrangler/
+/cloudflare/otp-worker/.dev.vars
+
 # Internal dev docs - kept locally, intentionally not versioned
 /CLAUDE.md
 /CHANGELOG.md

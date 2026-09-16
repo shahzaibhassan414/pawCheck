@@ -34,11 +34,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  firebase_core: ^4.13.0
+  firebase_core: 4.13.0
   firebase_auth: ^6.5.7
   cloud_firestore: ^6.8.0
-  purchases_flutter: ^10.8.0
   google_generative_ai: ^0.4.7
+  image_picker: ^1.2.3
+  google_fonts: ^8.2.1
+  url_launcher: ^6.3.2
+  http: ^1.2.2
+  firebase_messaging: ^16.5.0
+  device_info_plus: ^13.2.0
+  android_id: ^0.5.2+1
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +57,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_native_splash: ^2.4.8
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,10 +70,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  # Brand-mark artwork — see lib/core/config/brand_assets.dart for the
+  # single source of truth on these paths (consumed by build-time tooling
+  # below, which can't reference that Dart class directly). Species
+  # illustrations (dog/cat) live separately in assets/images/ — see
+  # lib/core/config/species_assets.dart.
+  assets:
+    - assets/branding/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -94,23 +105,46 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
+# flutter_launcher_icons config — generates the iOS/Android app icon from
+# a dedicated `app_icon.png`, deliberately separate from `BrandAssets.logo`
+# (see lib/core/config/brand_assets.dart) used everywhere in-app. That
+# in-app mark is transparent so it can sit on Home's AppBar, the violet
+# Account Setup badge, etc.; `app_icon.png` instead has the app's cream
+# background baked in, which is exactly what an icon needs (a transparent
+# icon would just show through to the home screen's own wallpaper) but
+# would show as a visible cream square if reused inside e.g. the violet
+# circle badge. Already has no alpha channel at all, so no
+# `remove_alpha_ios` stripping needed. Regenerate with
+# `dart run flutter_launcher_icons` whenever this artwork changes.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/branding/app_icon.png"
+  min_sdk_android: 21
+
 # flutter_native_splash config — generates the native iOS/Android launch
-# screen shown before the Flutter engine boots. Colors are the exact
-# `ColorScheme.fromSeed(seedColor: 0xFF2F7D6E).surface` values computed from
-# lib/core/theme/app_theme.dart, so the splash is indistinguishable from the
-# app's own scaffold background and there's no visual "flash" at handoff.
-# Color-only by design (no mark/icon): this is a health-adjacent app for
-# anxious pet owners and the brand is deliberately calm, not busy — see
-# CLAUDE.md. No SVG-to-PNG rasterizer (rsvg-convert/cairosvg/ImageMagick/
-# Pillow) was available in the dev environment to produce a clean icon
-# asset, and flutter_native_splash requires a pre-rendered raster PNG since
-# it renders before Flutter (and therefore any Icon widget) exists.
+# screen shown before the Flutter engine boots. `color`/`color_dark` match
+# AppTheme's `_lightScaffold` (the deliberate near-white override, not the
+# raw seed-derived surface) and
+# `ColorScheme.fromSeed(seedColor: 0xFF7C3AED, brightness: dark).surface`
+# from lib/core/theme/app_theme.dart, so the solid-color splash is
+# indistinguishable from the app's own scaffold background and there's no
+# visual "flash" at handoff. `image`/`image_dark` are BrandAssets.logo/
+# logoDark — `logo`'s bold opaque violet reads clearly on the near-white
+# light background, while `logoDark`'s pale ghost silhouette + violet
+# pulse glyph was specifically designed for a dark backdrop. Regenerate
+# with `dart run flutter_native_splash:create` whenever any of these
+# change.
 flutter_native_splash:
-  color: "F5FBF7"
-  color_dark: "0E1513"
+  color: "FAFAF7"
+  color_dark: "151218"
+  image: assets/branding/logo.png
+  image_dark: assets/branding/logo_dark.png
   android_12:
-    color: "F5FBF7"
-    color_dark: "0E1513"
+    color: "FAFAF7"
+    color_dark: "151218"
+    image: assets/branding/logo.png
+    image_dark: assets/branding/logo_dark.png
   # Project is iOS-first with Android as fast-follow (per CLAUDE.md); web is
   # explicitly out of scope. An untracked `web/` dir exists in this working
   # tree from an earlier, unrelated experiment, which made this package

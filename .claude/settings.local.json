@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(xcrun simctl *)",
+      "Bash(flutter pub *)"
     ]
   }
 }

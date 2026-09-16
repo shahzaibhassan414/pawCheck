@@ -11,4 +11,8 @@ abstract final class Env {
   static const revenueCatApiKeyAndroid = String.fromEnvironment(
     'REVENUECAT_API_KEY_ANDROID',
   );
+
+  /// Base URL of the deployed Cloudflare Worker backing email-OTP sign-in
+  /// (`cloudflare/otp-worker/`) — e.g. `https://pawcheck-otp.<sub>.workers.dev`.
+  static const otpWorkerBaseUrl = String.fromEnvironment('OTP_WORKER_BASE_URL');
 }

@@ -49,15 +49,12 @@ void main() {
       expect(() => Scan.fromJson(json), throwsA(isA<FormatException>()));
     });
 
-    test(
-      'throws a catchable FormatException for a malformed urgency string, '
-      'never silently defaulting to a lower urgency',
-      () {
-        final json = scan.toJson();
-        json['urgencyLevel'] = 'sort of urgent??';
+    test('throws a catchable FormatException for a malformed urgency string, '
+        'never silently defaulting to a lower urgency', () {
+      final json = scan.toJson();
+      json['urgencyLevel'] = 'sort of urgent??';
 
-        expect(() => Scan.fromJson(json), throwsA(isA<FormatException>()));
-      },
-    );
+      expect(() => Scan.fromJson(json), throwsA(isA<FormatException>()));
+    });
   });
 }

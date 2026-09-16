@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "384043411047",
+    "project_id": "pawcheck-shahzaib",
+    "storage_bucket": "pawcheck-shahzaib.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384043411047:android:6810ea39ba2162c2c656c2",
+        "android_client_info": {
+          "package_name": "com.pawcheck.pawCheck"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqZA9tf8HL43vvEVuesb3khEsg6I_W_TI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

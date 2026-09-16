@@ -1,0 +1,23 @@
+name = "pawcheck-otp"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Non-secret config. BREVO_SENDER_EMAIL must be a sender address verified in
+# your Brevo dashboard (Senders & IP > Senders) before emails will send.
+[vars]
+BREVO_SENDER_EMAIL = "shahzaibhassan414@gmail.com"
+
+# Create with `wrangler kv:namespace create OTP_KV`, then paste the printed
+# id below (replace the placeholder — deploy fails without a real id).
+[[kv_namespaces]]
+binding = "OTP_KV"
+id = "5dc988b130a040f2a171cef531e4de06"
+
+# Secrets — set via `wrangler secret put <NAME>` in your own terminal, never
+# written here or committed:
+#   BREVO_API_KEY        Brevo dashboard > SMTP & API > API Keys
+#   FIREBASE_PROJECT_ID   Firebase console > Project Settings > General
+#   FIREBASE_CLIENT_EMAIL From the service account JSON (Project Settings >
+#                         Service Accounts > Generate new private key)
+#   FIREBASE_PRIVATE_KEY  From the same service account JSON's "private_key"
+#                         field, including the BEGIN/END PRIVATE KEY lines
